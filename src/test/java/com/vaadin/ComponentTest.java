@@ -4,37 +4,31 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.router.Route;
+import com.vaadin.leaflet.LeafletComponent;
+import com.vaadin.leaflet.LeafletPoint;
 import com.vaadin.leaflet.LeafletPointSelector;
 import com.vaadin.leaflet.TileEnum;
-import org.locationtech.jts.geom.Coordinate;
-import org.locationtech.jts.geom.GeometryFactory;
-import org.locationtech.jts.geom.Point;
 
 import java.util.Arrays;
 import java.util.stream.Stream;
 
-@Route
-public class DemoView extends Div {
+@Route("component")
+public class ComponentTest extends Div {
 
-    private static final String GEO = "{ \"type\":\"FeatureCollection\", \"features\":[ { \"type\":\"Feature\", \"geometry\":{ \"type\":\"LineString\", \"coordinates\":[ [ -105.00341892242432, 39.75383843460583 ], [ -105.0008225440979, 39.751891803969535 ] ] }, \"properties\":{ \"popupContent\":\"This is a free bus line that will take you across downtown.\", \"underConstruction\":false }, \"id\":1 }, { \"type\":\"Feature\", \"geometry\":{ \"type\":\"LineString\", \"coordinates\":[ [ -105.0008225440979, 39.751891803969535 ], [ -104.99820470809937, 39.74979664004068 ] ] }, \"properties\":{ \"popupContent\":\"This is a free bus line that will take you across downtown.\", \"underConstruction\":true }, \"id\":2 }, { \"type\":\"Feature\", \"geometry\":{ \"type\":\"LineString\", \"coordinates\":[ [ -104.99820470809937, 39.74979664004068 ], [ -104.98689651489258, 39.741052354709055 ] ] }, \"properties\":{ \"popupContent\":\"This is a free bus line that will take you across downtown.\", \"underConstruction\":false }, \"id\":3 } ] }";
+    private static final String GEO = "{ \"type\":\"FeatureCollection\", \"features\":[ { \"type\":\"Feature\", \"geometry\":{ \"type\":\"LineString\", \"coordinates\":[ [ -105.00341892242432, 39.75383843460583 ], [ -105.0008225440979, 39.751891803969535 ] ] }, \"properties\":{ \"popupContent\":\"This is a free bus line that will take you across downtown.\", \"underConstruction\":false }, \"id\":1 } ] }";
+    private static final String GEO2 = "{ \"type\":\"FeatureCollection\", \"features\":[{ \"type\":\"Feature\", \"geometry\":{ \"type\":\"LineString\", \"coordinates\":[ [ -104.99820470809937, 39.74979664004068 ], [ -104.98689651489258, 39.741052354709055 ] ] }, \"properties\":{ \"popupContent\":\"This is a free bus line that will take you across downtown.\", \"underConstruction\":false }, \"id\":3 } ] }";
 
-    protected LeafletPointSelector map;
+    protected LeafletComponent map;
+    boolean alternate = true;
 
-    public DemoView() {
-        map = new LeafletPointSelector();
+    public ComponentTest() {
+        map = new LeafletComponent();
         map.setHeight("580px");
 
-        Point initialPoint = new GeometryFactory().createPoint(new Coordinate(-56.20826804624813, -34.90763080315059));
-        map.setValue(initialPoint);
-
+        LeafletPoint initialPoint = new LeafletPoint(-34.9076, -56.2082);
+        map.goTo(initialPoint);
         add(map);
-
-        Button b1 = new Button("Show content", e -> {
-            Notification.show(map.getValue().toString());
-        });
-        add(b1);
 
         Button b2 = new Button("Limit zoom(2 - 20)", e -> {
             map.setMinZoom(2);
@@ -59,13 +53,13 @@ public class DemoView extends Div {
         add(b4);
 
         Button b5 = new Button("Center zabala", e -> {
-            Point zabala = new GeometryFactory().createPoint(new Coordinate(-56.20826804624813, -34.90763080315059));
+            LeafletPoint zabala = new LeafletPoint(-34.9076, -56.2082);
             map.goTo(zabala);
         });
         add(b5);
 
         Button b6 = new Button("Center (50, 10)", e -> {
-            Point createPoint = new GeometryFactory().createPoint(new Coordinate(10, 50));
+            LeafletPoint createPoint = new LeafletPoint(50, 10);
             map.goTo(createPoint);
         });
         add(b6);
@@ -81,9 +75,14 @@ public class DemoView extends Div {
         add(b8);
 
         Button b9 = new Button("AddGeoJSON", e -> {
-            Point gotoXY = new GeometryFactory().createPoint(new Coordinate(-105.0008225440979, 39.751891803969535));
+            LeafletPoint gotoXY = new LeafletPoint(39.7519, -105.00082);
             map.goTo(gotoXY);
-            map.addGeoJSON("line", GEO);
+            if (alternate) {
+                map.addGeoJSON("line", GEO);
+            } else {
+                map.addGeoJSON("line", GEO2);
+            }
+            alternate = !alternate;
         });
         add(b9);
 

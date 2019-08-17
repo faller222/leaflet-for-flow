@@ -16,7 +16,7 @@
         <maven.deploy.skip>true</maven.deploy.skip>
     </properties>
     <organization>
-        <name>Matti Tahvonen</name>
+        <name>Matti Tahvonen, German Faller</name>
     </organization>
     <licenses>
         <license>
@@ -62,26 +62,23 @@
             <groupId>com.vaadin</groupId>
             <artifactId>flow-server</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.github.legioth</groupId>
             <artifactId>field</artifactId>
             <version>0.10.0.1</version>
         </dependency>
+
         <dependency>
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-core</artifactId>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
             <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.locationtech.jts</groupId>
-            <artifactId>jts-core</artifactId>
-            <version>1.16.1</version>
         </dependency>
 
     </dependencies>
@@ -109,7 +106,7 @@
             <plugin>
                 <groupId>org.eclipse.jetty</groupId>
                 <artifactId>jetty-maven-plugin</artifactId>
-                <version>9.4.19.v20190610</version>
+                <version>9.3.27.v20190418</version>
                 <configuration>
                     <httpConnector>
                         <port>9998</port>

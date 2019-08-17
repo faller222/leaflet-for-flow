@@ -4,8 +4,8 @@ import com.vaadin.flow.component.*;
 import com.vaadin.flow.component.dependency.JavaScript;
 import com.vaadin.flow.component.dependency.StyleSheet;
 import com.vaadin.flow.function.SerializableConsumer;
-import org.locationtech.jts.geom.Point;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 @Tag("div")
@@ -21,60 +21,50 @@ public class LeafletComponent extends Component implements HasSize {
         setId(id);
     }
 
-    public void setMaxZoom(int val) {
-        runBeforeClientResponse(ui -> getElement()
-                .callJsFunction("$connector.maxZoom", val)
-        );
+    protected void callJS(final String functionName, final Serializable... arguments) {
+        runBeforeClientResponse(ui -> getElement().callJsFunction(functionName, arguments));
     }
 
-    public void setMinZoom(int val) {
-        runBeforeClientResponse(ui -> getElement()
-                .callJsFunction("$connector.minZoom", val)
-        );
+    public void setMaxZoom(final int val) {
+        callJS("$connector.maxZoom", val);
     }
 
-    public void setZoom(int val) {
-        runBeforeClientResponse(ui -> getElement()
-                .callJsFunction("$connector.setZoom", val)
-        );
+    public void setMinZoom(final int val) {
+        callJS("$connector.minZoom", val);
     }
 
-    public void goTo(Point p) {
-        runBeforeClientResponse(ui -> getElement()
-                .callJsFunction("$connector.goto", p.getCoordinate().y, p.getCoordinate().x)
-        );
+    public void setZoom(final int val) {
+        callJS("$connector.setZoom", val);
     }
 
-    public void setTile(TileEnum t) {
-        runBeforeClientResponse(ui -> getElement()
-                .callJsFunction("$connector.setTile", t.getUrl(), t.getAttribution())
-        );
+    public void goTo(final LeafletPoint p) {
+        callJS("$connector.goto", p.getLatitude(), p.getLongitude());
     }
 
-    public void addGeoJSON(String name, String geoJSON) {
-        runBeforeClientResponse(ui -> getElement()
-                .callJsFunction("$connector.addGeoJSON", name, geoJSON)
-        );
+    public void setTile(final TileEnum t) {
+        callJS("$connector.setTile", t.getUrl(), t.getAttribution());
     }
 
-    public void removeGeoJSON(String name) {
-        runBeforeClientResponse(ui -> getElement()
-                .callJsFunction("$connector.removeGeoJSON", name)
-        );
+    public void addGeoJSON(final String name, final String geoJSON) {
+        callJS("$connector.addGeoJSON", name, geoJSON);
+    }
+
+    public void removeGeoJSON(final String name) {
+        callJS("$connector.removeGeoJSON", name);
     }
 
     @Override
-    protected void onAttach(AttachEvent attachEvent) {
+    protected void onAttach(final AttachEvent attachEvent) {
         super.onAttach(attachEvent);
         initConnector();
     }
 
-    private void initConnector() {
-        runBeforeClientResponse(ui ->
-                ui.getPage().executeJs("window.Vaadin.Flow.leafletConnector.initLazy($0)", getElement()));
+    protected void initConnector() {
+        runBeforeClientResponse(ui -> ui.getPage()
+                .executeJs("window.Vaadin.Flow.leafletConnector.initLazy($0)", getElement()));
     }
 
-    void runBeforeClientResponse(SerializableConsumer<UI> command) {
+    void runBeforeClientResponse(final SerializableConsumer<UI> command) {
         getElement().getNode().runWhenAttached(ui -> ui
                 .beforeClientResponse(this, context -> command.accept(ui)));
     }

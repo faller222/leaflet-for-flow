@@ -6,22 +6,28 @@ window.Vaadin.Flow.leafletConnector = {
         }
 
         c.$connector = {
+            setPointSelector: function () {
+                this.isPointSelector = true;
+            },
 
             setPoint: function (lat, lon) {
-                if (!this.marker) {
-                    //Init Singleton Marker
-                    this.marker = L.marker([lat, lon], {draggable: true}).addTo(this.mymap);
-                    this.marker.on('dragend', function (event) {
-                        var marker = event.target;
-                        var position = marker.getLatLng();
-                        c.$connector.center();
-                        c.$server.updatePosition(position.lat, position.lng);
-                    });
-                } else {
-                    this.marker.setLatLng(L.latLng(lat, lon));
+                if (this.isPointSelector) {
+                    if (!this.marker) {
+                        //Init Singleton Marker
+                        this.marker = L.marker([lat, lon], {draggable: true}).addTo(this.mymap);
+                        this.marker.on('dragend', function (event) {
+                            var marker = event.target;
+                            var position = marker.getLatLng();
+                            c.$connector.center();
+                            c.$server.updatePosition(position.lat, position.lng);
+                        });
+                    } else {
+                        //Update Market Position
+                        this.marker.setLatLng(L.latLng(lat, lon));
+                    }
+                    this.center();
+                    c.$server.updatePosition(lat, lon);
                 }
-                this.center();
-                c.$server.updatePosition(lat, lon);
             },
 
             minZoom: function (zoom) {
@@ -77,6 +83,10 @@ window.Vaadin.Flow.leafletConnector = {
             }
         };
 
+//################################################################
+//################################################################
+// Initial Values
+
         var currentValue = "";
 
         const pushChanges = function () {
@@ -93,6 +103,7 @@ window.Vaadin.Flow.leafletConnector = {
         });
 
         c.$connector.myGeoJSON = [];
+        c.$connector.isPointSelector = false;
 
         L.DomUtil.addClass(mymap._container, 'crosshair-cursor-enabled');
 
