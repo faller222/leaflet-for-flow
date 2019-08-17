@@ -24,6 +24,7 @@ Builds will be available from https://vaadin.com/directory
 
 ## Future work 
 
+- SRS/CRS manipulation
 - Show PopUps
 - Manage gemoetry syles 
 - MultiPoint Selector
