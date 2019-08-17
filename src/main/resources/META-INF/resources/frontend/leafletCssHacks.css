@@ -3,3 +3,6 @@ vaadin-dialog-overlay {
     z-index: 500;
 }
 
+vaadin-combo-box-overlay {
+    z-index: 500;
+}

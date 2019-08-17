@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.vaadin</groupId>
+    <groupId>com.vaadin</groupId>
     <artifactId>leaflet-for-flow</artifactId>
-    <version>1.1-SNAPSHOT</version>
+    <version>1.5.1</version>
     <name>LeafletJS for Flow</name>
     <description>Integration of LeafletJS for Vaadin 10+</description>
 
@@ -25,17 +25,17 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
-    
+
     <scm>
-        <url>https://github.com/mstahv/leaflet-for-flow</url>
-        <connection>scm:git:git://github.com/mstahv/leaflet-for-flow.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com:/mstahv/leaflet-for-flow.git</developerConnection>
+        <url>https://github.com/faller222/leaflet-for-flow</url>
+        <connection>scm:git:git://github.com/faller222/leaflet-for-flow.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com:/faller222/leaflet-for-flow.git</developerConnection>
         <tag>HEAD</tag>
     </scm>
 
     <issueManagement>
         <system>GitHub</system>
-        <url>https://github.com/mstahv/leaflet-for-flow/issues</url>
+        <url>https://github.com/faller222/leaflet-for-flow/issues</url>
     </issueManagement>
 
     <dependencyManagement>
@@ -45,7 +45,7 @@
                 <artifactId>vaadin-bom</artifactId>
                 <type>pom</type>
                 <scope>import</scope>
-                <version>11.0.2</version>
+                <version>14.0.0</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -65,7 +65,7 @@
         <dependency>
             <groupId>org.github.legioth</groupId>
             <artifactId>field</artifactId>
-            <version>0.10.0</version>
+            <version>0.10.0.1</version>
         </dependency>
         <dependency>
             <groupId>com.vaadin</groupId>
@@ -77,11 +77,11 @@
             <artifactId>slf4j-simple</artifactId>
             <scope>test</scope>
         </dependency>
-        
+
         <dependency>
             <groupId>org.locationtech.jts</groupId>
             <artifactId>jts-core</artifactId>
-            <version>1.16.0</version>
+            <version>1.16.1</version>
         </dependency>
 
     </dependencies>
@@ -91,7 +91,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>3.1.0</version>
+                <version>3.1.2</version>
                 <configuration>
                     <archive>
                         <index>true</index>
@@ -109,18 +109,18 @@
             <plugin>
                 <groupId>org.eclipse.jetty</groupId>
                 <artifactId>jetty-maven-plugin</artifactId>
-                <version>9.3.25.v20180904</version>
+                <version>9.4.19.v20190610</version>
                 <configuration>
                     <httpConnector>
                         <port>9998</port>
                     </httpConnector>
                     <scanIntervalSeconds>-1</scanIntervalSeconds>
                     <reload>manual</reload>
-                    <!-- Use test scope because the UI/demo classes are in 
+                    <!-- Use test scope because the UI/demo classes are in
                     the test package. -->
                     <useTestScope>true</useTestScope>
                     <webAppConfig>
-                        <!-- This is only needed to be able to unzip webjars 
+                        <!-- This is only needed to be able to unzip webjars
                         directly into src/test/webjar-debug and modify them for testing -->
                         <resourceBase>src/test/webjar-debug/META-INF/resources</resourceBase>
                         <resourceBase>${project.basedir}/src/main/resources/META-INF/resources</resourceBase>
@@ -147,7 +147,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-assembly-plugin</artifactId>
-                        <version>3.1.0</version>
+                        <version>3.1.1</version>
                         <configuration>
                             <appendAssemblyId>false</appendAssemblyId>
                             <descriptors>
